@@ -1,0 +1,19 @@
+[Unit]
+Description=AccelData Admon Daemon
+Wants=syslog.target network.target
+After=syslog.target network.target
+
+[Service]
+Type=simple
+PIDFile=/run/admon.pid
+
+ExecStartPre=/usr/bin/test -f /usr/bin/docker
+ExecStart=/usr/bin/admon -r
+ExecStop=/bin/kill -9 $MAINPID
+TimeoutStopSec=10
+
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
